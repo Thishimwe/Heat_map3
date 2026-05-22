@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2fc214f8a4130c2786ec6945ecf9d848 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style='position:fixed;bottom:40px;right:20px;z-index:1000;
+     background:rgba(20,20,20,0.88);color:white;padding:14px 18px;
+     border-radius:10px;font-family:Arial;font-size:12px'>
+  <b style='font-size:13px'>Population Density</b><br>
+  <span style='font-size:10px;color:#aaa'>Rwanda 2022 Census · Kigali</span>
+  <div style='margin-top:8px;line-height:2.2'>
+    <span style='background:#ff0000;padding:2px 12px;border-radius:3px'></span> Very High<br>
+    <span style='background:#ff8800;padding:2px 12px;border-radius:3px'></span> High<br>
+    <span style='background:#ffff00;padding:2px 12px;border-radius:3px'></span> Medium<br>
+    <span style='background:#00ff00;padding:2px 12px;border-radius:3px'></span> Low<br>
+    <span style='background:#0000ff;padding:2px 12px;border-radius:3px'></span> Very Low
+  </div>
+  <hr style='border-color:#555;margin:6px 0'>
+  <span style='font-size:10px;color:#aaa'>intensity = population / area km²</span>
+</div>
+    
+<div style='position:fixed;top:15px;left:50%;transform:translateX(-50%);
+     z-index:1000;background:rgba(20,20,20,0.88);color:white;
+     padding:10px 22px;border-radius:8px;font-family:Arial;text-align:center'>
+  <b style='font-size:15px'>Kigali City — Population Density Heatmap</b><br>
+  <span style='font-size:11px;color:#aaa'>35 Sectors · Rwanda 2022 Census · SGE4165 CAT2</span>
+</div>
+    
+            <div class="folium-map" id="map_2fc214f8a4130c2786ec6945ecf9d848" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2fc214f8a4130c2786ec6945ecf9d848 = L.map(
+                "map_2fc214f8a4130c2786ec6945ecf9d848",
+                {
+                    center: [-1.9441, 30.0619],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_00724f8adf2e30d9710f6d762a054f3e = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_00724f8adf2e30d9710f6d762a054f3e.addTo(map_2fc214f8a4130c2786ec6945ecf9d848);
+        
+    
+            var heat_map_fda9a2688c884e6fa392e723cabb1cf7 = L.heatLayer(
+                [[-1.8839, 30.0892, 0.08759462544682456], [-1.9023, 30.1256, 0.24297745724903236], [-1.8923, 30.1456, 0.11695485515616919], [-1.9156, 30.0723, 0.550209350097206], [-1.8512, 30.0456, 0.05592426071874112], [-1.8612, 30.1056, 0.08641020238826064], [-1.8678, 30.1089, 0.05232468120181069], [-1.9378, 30.1123, 0.3177850216152804], [-1.9023, 30.0634, 0.35932753692551395], [-1.8734, 30.1345, 0.03532944541102861], [-1.9589, 30.1034, 0.3398225991425167], [-1.9367, 30.0812, 0.33175329825715616], [-1.8345, 30.0789, 0.011502426292562887], [-1.8456, 30.1234, 0.0], [-1.9512, 30.0934, 0.19510610266056722], [-1.9456, 30.0623, 0.1163304038192559], [-2.0023, 30.0234, 0.05868714808233046], [-1.9678, 30.0445, 0.7923050557941574], [-1.9845, 30.0289, 0.5140552489249642], [-1.9745, 30.0312, 0.06744374167300417], [-1.9634, 30.0367, 0.6154505979412838], [-1.9612, 30.0534, 0.4475545052984975], [-1.9523, 30.0556, 0.5319168380652226], [-1.9712, 30.0478, 0.2231774833315277], [-1.9934, 30.0923, 0.08954798597272479], [-2.0345, 30.0645, 0.1619315500652475], [-1.9689, 30.1289, 0.1988039200339136], [-2.0023, 30.0812, 0.5276880167636248], [-2.0234, 30.1156, 0.28072246563515835], [-1.9756, 30.1178, 0.17492207005145585], [-2.0156, 30.0756, 0.26846431727786063], [-2.0134, 30.0934, 0.22636136527231768], [-1.9823, 30.0678, 0.2643927605898699], [-2.0012, 30.1023, 0.15876186303273843]],
+                {
+  "minOpacity": 0.4,
+  "maxZoom": 16,
+  "radius": 30,
+  "blur": 22,
+  "gradient": {
+  0.0: "#0000ff",
+  0.3: "#00ffff",
+  0.5: "#00ff00",
+  0.7: "#ffff00",
+  0.85: "#ff8800",
+  1.0: "#ff0000",
+},
+}
+            );
+        
+    
+            heat_map_fda9a2688c884e6fa392e723cabb1cf7.addTo(map_2fc214f8a4130c2786ec6945ecf9d848);
+        
+    
+            var feature_group_c86fe73c7269e9a1d741b6e11cef796c = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_02d7b476445f0e05a9e47be637660b1b = L.circleMarker(
+                [-1.8839, 30.0892],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_66ec91e2ce7c7020e54fa43b5e853202 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_961f2f9dd549cec36a18dfaebc1fe187 = $(`<div id="html_961f2f9dd549cec36a18dfaebc1fe187" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Bumbogo</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 112,899<br>       <b>Area:</b> 67.20 km²<br>       <b>Density:</b> 1680 people/km²     </div></div>`)[0];
+                popup_66ec91e2ce7c7020e54fa43b5e853202.setContent(html_961f2f9dd549cec36a18dfaebc1fe187);
+            
+        
+
+        circle_marker_02d7b476445f0e05a9e47be637660b1b.bindPopup(popup_66ec91e2ce7c7020e54fa43b5e853202)
+        ;
+
+        
+    
+    
+            circle_marker_02d7b476445f0e05a9e47be637660b1b.bindTooltip(
+                `<div>
+                     Bumbogo: 112,899 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3a475248ffb955c4ee4dd66c3b225ef1 = L.circleMarker(
+                [-1.9023, 30.1256],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_e473b9a5016f36b3780a1f5b8f587b73 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_6e822ee4e0b0f4de7c4e332b90925eb9 = $(`<div id="html_6e822ee4e0b0f4de7c4e332b90925eb9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kinyinya</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 125,400<br>       <b>Area:</b> 32.10 km²<br>       <b>Density:</b> 3907 people/km²     </div></div>`)[0];
+                popup_e473b9a5016f36b3780a1f5b8f587b73.setContent(html_6e822ee4e0b0f4de7c4e332b90925eb9);
+            
+        
+
+        circle_marker_3a475248ffb955c4ee4dd66c3b225ef1.bindPopup(popup_e473b9a5016f36b3780a1f5b8f587b73)
+        ;
+
+        
+    
+    
+            circle_marker_3a475248ffb955c4ee4dd66c3b225ef1.bindTooltip(
+                `<div>
+                     Kinyinya: 125,400 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_982db1e36a40370f36f6e022e6a04966 = L.circleMarker(
+                [-1.8923, 30.1456],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_0424d09dc3488c649169e1bfefef45e9 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_b9e53a42f9d944da17db5f2eea5ac03f = $(`<div id="html_b9e53a42f9d944da17db5f2eea5ac03f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Ndera</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 95,164<br>       <b>Area:</b> 45.30 km²<br>       <b>Density:</b> 2101 people/km²     </div></div>`)[0];
+                popup_0424d09dc3488c649169e1bfefef45e9.setContent(html_b9e53a42f9d944da17db5f2eea5ac03f);
+            
+        
+
+        circle_marker_982db1e36a40370f36f6e022e6a04966.bindPopup(popup_0424d09dc3488c649169e1bfefef45e9)
+        ;
+
+        
+    
+    
+            circle_marker_982db1e36a40370f36f6e022e6a04966.bindTooltip(
+                `<div>
+                     Ndera: 95,164 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_30ba329087e90515c1d9739abca44fd7 = L.circleMarker(
+                [-1.9156, 30.0723],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_1769747fa34e71528295bcfaffb9aab1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a8a93b6fd704dc649a05055276d09d77 = $(`<div id="html_a8a93b6fd704dc649a05055276d09d77" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gisozi</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 75,611<br>       <b>Area:</b> 9.10 km²<br>       <b>Density:</b> 8309 people/km²     </div></div>`)[0];
+                popup_1769747fa34e71528295bcfaffb9aab1.setContent(html_a8a93b6fd704dc649a05055276d09d77);
+            
+        
+
+        circle_marker_30ba329087e90515c1d9739abca44fd7.bindPopup(popup_1769747fa34e71528295bcfaffb9aab1)
+        ;
+
+        
+    
+    
+            circle_marker_30ba329087e90515c1d9739abca44fd7.bindTooltip(
+                `<div>
+                     Gisozi: 75,611 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7b43087e67bce40cceccef2106f1e4c = L.circleMarker(
+                [-1.8512, 30.0456],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_77472cf08c51ac6698e7d3e59ed21b24 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_11acecd5f28d0cd2839b72b554c77a12 = $(`<div id="html_11acecd5f28d0cd2839b72b554c77a12" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Nduba</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 68,424<br>       <b>Area:</b> 55.80 km²<br>       <b>Density:</b> 1226 people/km²     </div></div>`)[0];
+                popup_77472cf08c51ac6698e7d3e59ed21b24.setContent(html_11acecd5f28d0cd2839b72b554c77a12);
+            
+        
+
+        circle_marker_b7b43087e67bce40cceccef2106f1e4c.bindPopup(popup_77472cf08c51ac6698e7d3e59ed21b24)
+        ;
+
+        
+    
+    
+            circle_marker_b7b43087e67bce40cceccef2106f1e4c.bindTooltip(
+                `<div>
+                     Nduba: 68,424 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_86683299cc9e4a5576049e11bf4ace7c = L.circleMarker(
+                [-1.8612, 30.1056],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_0e95bdea048e6dd3dcef28d4a1d88688 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e28b84e7f9e275ced587331837d042ef = $(`<div id="html_e28b84e7f9e275ced587331837d042ef" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Jabana</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 63,862<br>       <b>Area:</b> 38.40 km²<br>       <b>Density:</b> 1663 people/km²     </div></div>`)[0];
+                popup_0e95bdea048e6dd3dcef28d4a1d88688.setContent(html_e28b84e7f9e275ced587331837d042ef);
+            
+        
+
+        circle_marker_86683299cc9e4a5576049e11bf4ace7c.bindPopup(popup_0e95bdea048e6dd3dcef28d4a1d88688)
+        ;
+
+        
+    
+    
+            circle_marker_86683299cc9e4a5576049e11bf4ace7c.bindTooltip(
+                `<div>
+                     Jabana: 63,862 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1ecc07b24f232ed61e01a38b1fc5e755 = L.circleMarker(
+                [-1.8678, 30.1089],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_61f5462119a376b210870b0d02316fe3 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_27c99e20e523428091fc02638502747e = $(`<div id="html_27c99e20e523428091fc02638502747e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Rusororo</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 61,787<br>       <b>Area:</b> 52.60 km²<br>       <b>Density:</b> 1175 people/km²     </div></div>`)[0];
+                popup_61f5462119a376b210870b0d02316fe3.setContent(html_27c99e20e523428091fc02638502747e);
+            
+        
+
+        circle_marker_1ecc07b24f232ed61e01a38b1fc5e755.bindPopup(popup_61f5462119a376b210870b0d02316fe3)
+        ;
+
+        
+    
+    
+            circle_marker_1ecc07b24f232ed61e01a38b1fc5e755.bindTooltip(
+                `<div>
+                     Rusororo: 61,787 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ac77d6b7621a4a47d7d4a3e500c31f9a = L.circleMarker(
+                [-1.9378, 30.1123],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_76d17a83ce98b1600443c0c86a9ff3ab = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_9703469a3ef1dbdf6c37b94139d64b99 = $(`<div id="html_9703469a3ef1dbdf6c37b94139d64b99" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kimironko</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 61,733<br>       <b>Area:</b> 12.40 km²<br>       <b>Density:</b> 4978 people/km²     </div></div>`)[0];
+                popup_76d17a83ce98b1600443c0c86a9ff3ab.setContent(html_9703469a3ef1dbdf6c37b94139d64b99);
+            
+        
+
+        circle_marker_ac77d6b7621a4a47d7d4a3e500c31f9a.bindPopup(popup_76d17a83ce98b1600443c0c86a9ff3ab)
+        ;
+
+        
+    
+    
+            circle_marker_ac77d6b7621a4a47d7d4a3e500c31f9a.bindTooltip(
+                `<div>
+                     Kimironko: 61,733 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_897196138c7c4e72a4413391932d8a9b = L.circleMarker(
+                [-1.9023, 30.0634],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_ae055445e94470f8673d7e77f770002f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d978f1ce84260f99f40d7a04436754ea = $(`<div id="html_d978f1ce84260f99f40d7a04436754ea" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gatsata</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 46,262<br>       <b>Area:</b> 8.30 km²<br>       <b>Density:</b> 5574 people/km²     </div></div>`)[0];
+                popup_ae055445e94470f8673d7e77f770002f.setContent(html_d978f1ce84260f99f40d7a04436754ea);
+            
+        
+
+        circle_marker_897196138c7c4e72a4413391932d8a9b.bindPopup(popup_ae055445e94470f8673d7e77f770002f)
+        ;
+
+        
+    
+    
+            circle_marker_897196138c7c4e72a4413391932d8a9b.bindTooltip(
+                `<div>
+                     Gatsata: 46,262 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ddfd8afdf97cce559794bba8a16088ae = L.circleMarker(
+                [-1.8734, 30.1345],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_fed7aaf850fa0c547f2674089641698c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_8c276a45fecf4d98897857fe5a66f721 = $(`<div id="html_8c276a45fecf4d98897857fe5a66f721" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Jali</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 41,156<br>       <b>Area:</b> 44.20 km²<br>       <b>Density:</b> 931 people/km²     </div></div>`)[0];
+                popup_fed7aaf850fa0c547f2674089641698c.setContent(html_8c276a45fecf4d98897857fe5a66f721);
+            
+        
+
+        circle_marker_ddfd8afdf97cce559794bba8a16088ae.bindPopup(popup_fed7aaf850fa0c547f2674089641698c)
+        ;
+
+        
+    
+    
+            circle_marker_ddfd8afdf97cce559794bba8a16088ae.bindTooltip(
+                `<div>
+                     Jali: 41,156 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_729fdcba4fdfeb853d6df1d9d56d9c45 = L.circleMarker(
+                [-1.9589, 30.1034],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_f0decc3eddbc60487bb554df2e270895 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_da884caecc8d0edb12b89d1aea9db51d = $(`<div id="html_da884caecc8d0edb12b89d1aea9db51d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Remera</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 38,648<br>       <b>Area:</b> 7.30 km²<br>       <b>Density:</b> 5294 people/km²     </div></div>`)[0];
+                popup_f0decc3eddbc60487bb554df2e270895.setContent(html_da884caecc8d0edb12b89d1aea9db51d);
+            
+        
+
+        circle_marker_729fdcba4fdfeb853d6df1d9d56d9c45.bindPopup(popup_f0decc3eddbc60487bb554df2e270895)
+        ;
+
+        
+    
+    
+            circle_marker_729fdcba4fdfeb853d6df1d9d56d9c45.bindTooltip(
+                `<div>
+                     Remera: 38,648 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d44ba772b74711630d4d8522fedb70cf = L.circleMarker(
+                [-1.9367, 30.0812],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_d72132914caa7050a12ec6296c56a669 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_57ccdc23093d49cd02412a33f2f98747 = $(`<div id="html_57ccdc23093d49cd02412a33f2f98747" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kacyiru</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 30,036<br>       <b>Area:</b> 5.80 km²<br>       <b>Density:</b> 5179 people/km²     </div></div>`)[0];
+                popup_d72132914caa7050a12ec6296c56a669.setContent(html_57ccdc23093d49cd02412a33f2f98747);
+            
+        
+
+        circle_marker_d44ba772b74711630d4d8522fedb70cf.bindPopup(popup_d72132914caa7050a12ec6296c56a669)
+        ;
+
+        
+    
+    
+            circle_marker_d44ba772b74711630d4d8522fedb70cf.bindTooltip(
+                `<div>
+                     Kacyiru: 30,036 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8be082fbf821e8a7fcb929d160308a31 = L.circleMarker(
+                [-1.8345, 30.0789],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_cd84bdbc333b1474fdfd0336592ead6a = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d7026c81082580f783b0344c9dd82b50 = $(`<div id="html_d7026c81082580f783b0344c9dd82b50" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Rutunga</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 22,468<br>       <b>Area:</b> 38.10 km²<br>       <b>Density:</b> 590 people/km²     </div></div>`)[0];
+                popup_cd84bdbc333b1474fdfd0336592ead6a.setContent(html_d7026c81082580f783b0344c9dd82b50);
+            
+        
+
+        circle_marker_8be082fbf821e8a7fcb929d160308a31.bindPopup(popup_cd84bdbc333b1474fdfd0336592ead6a)
+        ;
+
+        
+    
+    
+            circle_marker_8be082fbf821e8a7fcb929d160308a31.bindTooltip(
+                `<div>
+                     Rutunga: 22,468 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d72a1a31c44e26099891130e3c42a1b6 = L.circleMarker(
+                [-1.8456, 30.1234],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_948afa42d9ffdd8d2ad6a99af88272c4 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_6b836cf9fd906803aa855d4b24307954 = $(`<div id="html_6b836cf9fd906803aa855d4b24307954" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gikomero</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 19,630<br>       <b>Area:</b> 46.20 km²<br>       <b>Density:</b> 425 people/km²     </div></div>`)[0];
+                popup_948afa42d9ffdd8d2ad6a99af88272c4.setContent(html_6b836cf9fd906803aa855d4b24307954);
+            
+        
+
+        circle_marker_d72a1a31c44e26099891130e3c42a1b6.bindPopup(popup_948afa42d9ffdd8d2ad6a99af88272c4)
+        ;
+
+        
+    
+    
+            circle_marker_d72a1a31c44e26099891130e3c42a1b6.bindTooltip(
+                `<div>
+                     Gikomero: 19,630 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2689cfb0edd4b4a88314d9c5fb09642c = L.circleMarker(
+                [-1.9512, 30.0934],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_ba75d97609885d3870ccf5bf07ba0ba1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1a750341099a56302a33ec023ecdd4ed = $(`<div id="html_1a750341099a56302a33ec023ecdd4ed" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kimihurura</h4>       <hr style='margin:5px 0'>       <b>District:</b> Gasabo<br>       <b>Population:</b> 16,425<br>       <b>Area:</b> 5.10 km²<br>       <b>Density:</b> 3221 people/km²     </div></div>`)[0];
+                popup_ba75d97609885d3870ccf5bf07ba0ba1.setContent(html_1a750341099a56302a33ec023ecdd4ed);
+            
+        
+
+        circle_marker_2689cfb0edd4b4a88314d9c5fb09642c.bindPopup(popup_ba75d97609885d3870ccf5bf07ba0ba1)
+        ;
+
+        
+    
+    
+            circle_marker_2689cfb0edd4b4a88314d9c5fb09642c.bindTooltip(
+                `<div>
+                     Kimihurura: 16,425 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_226690a6df33640f20ecd8d16022ba65 = L.circleMarker(
+                [-1.9456, 30.0623],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_b405e6afdb2b7960850db0dbd98e12a0 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_381f90c11a838fcf94bf3c9b1e5ad026 = $(`<div id="html_381f90c11a838fcf94bf3c9b1e5ad026" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kigali</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 61,499<br>       <b>Area:</b> 29.40 km²<br>       <b>Density:</b> 2092 people/km²     </div></div>`)[0];
+                popup_b405e6afdb2b7960850db0dbd98e12a0.setContent(html_381f90c11a838fcf94bf3c9b1e5ad026);
+            
+        
+
+        circle_marker_226690a6df33640f20ecd8d16022ba65.bindPopup(popup_b405e6afdb2b7960850db0dbd98e12a0)
+        ;
+
+        
+    
+    
+            circle_marker_226690a6df33640f20ecd8d16022ba65.bindTooltip(
+                `<div>
+                     Kigali: 61,499 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ac5106c9880a7024144673817325586f = L.circleMarker(
+                [-2.0023, 30.0234],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_7b9ae7732fad4e32a658dc9eebae6779 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_7ed48c7cb19bfd4cd915c3c4cbe7381f = $(`<div id="html_7ed48c7cb19bfd4cd915c3c4cbe7381f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Mageragere</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 59,747<br>       <b>Area:</b> 47.20 km²<br>       <b>Density:</b> 1266 people/km²     </div></div>`)[0];
+                popup_7b9ae7732fad4e32a658dc9eebae6779.setContent(html_7ed48c7cb19bfd4cd915c3c4cbe7381f);
+            
+        
+
+        circle_marker_ac5106c9880a7024144673817325586f.bindPopup(popup_7b9ae7732fad4e32a658dc9eebae6779)
+        ;
+
+        
+    
+    
+            circle_marker_ac5106c9880a7024144673817325586f.bindTooltip(
+                `<div>
+                     Mageragere: 59,747 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b6924a2e4bdcb4264a8110a1392e8da9 = L.circleMarker(
+                [-1.9678, 30.0445],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_d7b98ae2f0f39fff3bebd61f0cad1004 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_df6ea0c11d1697b17d776ed87dddcbe8 = $(`<div id="html_df6ea0c11d1697b17d776ed87dddcbe8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kimisagara</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 56,534<br>       <b>Area:</b> 4.80 km²<br>       <b>Density:</b> 11778 people/km²     </div></div>`)[0];
+                popup_d7b98ae2f0f39fff3bebd61f0cad1004.setContent(html_df6ea0c11d1697b17d776ed87dddcbe8);
+            
+        
+
+        circle_marker_b6924a2e4bdcb4264a8110a1392e8da9.bindPopup(popup_d7b98ae2f0f39fff3bebd61f0cad1004)
+        ;
+
+        
+    
+    
+            circle_marker_b6924a2e4bdcb4264a8110a1392e8da9.bindTooltip(
+                `<div>
+                     Kimisagara: 56,534 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_48d35557c96e326b80ad6c1a947c3a6a = L.circleMarker(
+                [-1.9845, 30.0289],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_abce30eea21fdac065339fb84c8d663e = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_626591d4dae27c94c846a5be2183b5ed = $(`<div id="html_626591d4dae27c94c846a5be2183b5ed" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Nyamirambo</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 55,315<br>       <b>Area:</b> 7.10 km²<br>       <b>Density:</b> 7791 people/km²     </div></div>`)[0];
+                popup_abce30eea21fdac065339fb84c8d663e.setContent(html_626591d4dae27c94c846a5be2183b5ed);
+            
+        
+
+        circle_marker_48d35557c96e326b80ad6c1a947c3a6a.bindPopup(popup_abce30eea21fdac065339fb84c8d663e)
+        ;
+
+        
+    
+    
+            circle_marker_48d35557c96e326b80ad6c1a947c3a6a.bindTooltip(
+                `<div>
+                     Nyamirambo: 55,315 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_334d13553b45d90883627e482a151f81 = L.circleMarker(
+                [-1.9745, 30.0312],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_3c8661fcd5d76129dd058ef789075541 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e9b3a5005771c217fdde48d7fb543158 = $(`<div id="html_e9b3a5005771c217fdde48d7fb543158" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kanyinya</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 31,026<br>       <b>Area:</b> 22.30 km²<br>       <b>Density:</b> 1391 people/km²     </div></div>`)[0];
+                popup_3c8661fcd5d76129dd058ef789075541.setContent(html_e9b3a5005771c217fdde48d7fb543158);
+            
+        
+
+        circle_marker_334d13553b45d90883627e482a151f81.bindPopup(popup_3c8661fcd5d76129dd058ef789075541)
+        ;
+
+        
+    
+    
+            circle_marker_334d13553b45d90883627e482a151f81.bindTooltip(
+                `<div>
+                     Kanyinya: 31,026 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3454773f1b729a786d6e57b4a62d8069 = L.circleMarker(
+                [-1.9634, 30.0367],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_9525c5f6d7eb991c1ebd8c744e9a9d37 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1e2d19744f0e0fd403295b33fc961b73 = $(`<div id="html_1e2d19744f0e0fd403295b33fc961b73" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Nyakabanda</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 29,580<br>       <b>Area:</b> 3.20 km²<br>       <b>Density:</b> 9244 people/km²     </div></div>`)[0];
+                popup_9525c5f6d7eb991c1ebd8c744e9a9d37.setContent(html_1e2d19744f0e0fd403295b33fc961b73);
+            
+        
+
+        circle_marker_3454773f1b729a786d6e57b4a62d8069.bindPopup(popup_9525c5f6d7eb991c1ebd8c744e9a9d37)
+        ;
+
+        
+    
+    
+            circle_marker_3454773f1b729a786d6e57b4a62d8069.bindTooltip(
+                `<div>
+                     Nyakabanda: 29,580 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_555ebc165a350c119a582f6e303b12e9 = L.circleMarker(
+                [-1.9612, 30.0534],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_1bbd76b7f717465b7dc58eb1b1526c56 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d209396a746146b8cf9f72a6cd2cf23c = $(`<div id="html_d209396a746146b8cf9f72a6cd2cf23c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gitega</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 26,668<br>       <b>Area:</b> 3.90 km²<br>       <b>Density:</b> 6838 people/km²     </div></div>`)[0];
+                popup_1bbd76b7f717465b7dc58eb1b1526c56.setContent(html_d209396a746146b8cf9f72a6cd2cf23c);
+            
+        
+
+        circle_marker_555ebc165a350c119a582f6e303b12e9.bindPopup(popup_1bbd76b7f717465b7dc58eb1b1526c56)
+        ;
+
+        
+    
+    
+            circle_marker_555ebc165a350c119a582f6e303b12e9.bindTooltip(
+                `<div>
+                     Gitega: 26,668 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_734101b31ddd1703ce75dcabee6db4eb = L.circleMarker(
+                [-1.9523, 30.0556],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_5ebed4ae123ee7ecdc18faa8ed7bb1b3 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_fd059864b03a6f060be78119af045a8f = $(`<div id="html_fd059864b03a6f060be78119af045a8f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Muhima</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 22,531<br>       <b>Area:</b> 2.80 km²<br>       <b>Density:</b> 8047 people/km²     </div></div>`)[0];
+                popup_5ebed4ae123ee7ecdc18faa8ed7bb1b3.setContent(html_fd059864b03a6f060be78119af045a8f);
+            
+        
+
+        circle_marker_734101b31ddd1703ce75dcabee6db4eb.bindPopup(popup_5ebed4ae123ee7ecdc18faa8ed7bb1b3)
+        ;
+
+        
+    
+    
+            circle_marker_734101b31ddd1703ce75dcabee6db4eb.bindTooltip(
+                `<div>
+                     Muhima: 22,531 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cd4dffd8619f853b05db80964228bb96 = L.circleMarker(
+                [-1.9712, 30.0478],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_1797074f08115293b656c2195d3f5ce0 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_bf2198b64e6def718ea5b0f9e0948888 = $(`<div id="html_bf2198b64e6def718ea5b0f9e0948888" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Nyarugenge</h4>       <hr style='margin:5px 0'>       <b>District:</b> Nyarugenge<br>       <b>Population:</b> 16,665<br>       <b>Area:</b> 4.60 km²<br>       <b>Density:</b> 3623 people/km²     </div></div>`)[0];
+                popup_1797074f08115293b656c2195d3f5ce0.setContent(html_bf2198b64e6def718ea5b0f9e0948888);
+            
+        
+
+        circle_marker_cd4dffd8619f853b05db80964228bb96.bindPopup(popup_1797074f08115293b656c2195d3f5ce0)
+        ;
+
+        
+    
+    
+            circle_marker_cd4dffd8619f853b05db80964228bb96.bindTooltip(
+                `<div>
+                     Nyarugenge: 16,665 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4bd44dc487605b8c74b69ba272c7e298 = L.circleMarker(
+                [-1.9934, 30.0923],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_d26d9e5136643529529a4b1bc5b50b8f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_ea0edfbf178616f8388bb54e9a7a25ce = $(`<div id="html_ea0edfbf178616f8388bb54e9a7a25ce" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gahanga</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 79,082<br>       <b>Area:</b> 46.30 km²<br>       <b>Density:</b> 1708 people/km²     </div></div>`)[0];
+                popup_d26d9e5136643529529a4b1bc5b50b8f.setContent(html_ea0edfbf178616f8388bb54e9a7a25ce);
+            
+        
+
+        circle_marker_4bd44dc487605b8c74b69ba272c7e298.bindPopup(popup_d26d9e5136643529529a4b1bc5b50b8f)
+        ;
+
+        
+    
+    
+            circle_marker_4bd44dc487605b8c74b69ba272c7e298.bindTooltip(
+                `<div>
+                     Gahanga: 79,082 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a1b260b2afcef8bb7e48b1475c2e3d66 = L.circleMarker(
+                [-2.0345, 30.0645],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_a3fde58ab8054605bfd5257ac84c180c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2b8aaf4e254f9e3ee64be428a404c68e = $(`<div id="html_2b8aaf4e254f9e3ee64be428a404c68e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Masaka</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 78,788<br>       <b>Area:</b> 28.70 km²<br>       <b>Density:</b> 2745 people/km²     </div></div>`)[0];
+                popup_a3fde58ab8054605bfd5257ac84c180c.setContent(html_2b8aaf4e254f9e3ee64be428a404c68e);
+            
+        
+
+        circle_marker_a1b260b2afcef8bb7e48b1475c2e3d66.bindPopup(popup_a3fde58ab8054605bfd5257ac84c180c)
+        ;
+
+        
+    
+    
+            circle_marker_a1b260b2afcef8bb7e48b1475c2e3d66.bindTooltip(
+                `<div>
+                     Masaka: 78,788 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9558d05c0c39fe7f218c1f062c04729c = L.circleMarker(
+                [-1.9689, 30.1289],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_a8a98c200aaeddf1f6703cda6cfb07ad = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_449e691e8f06837d98581595b3120fef = $(`<div id="html_449e691e8f06837d98581595b3120fef" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kanombe</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 72,346<br>       <b>Area:</b> 22.10 km²<br>       <b>Density:</b> 3274 people/km²     </div></div>`)[0];
+                popup_a8a98c200aaeddf1f6703cda6cfb07ad.setContent(html_449e691e8f06837d98581595b3120fef);
+            
+        
+
+        circle_marker_9558d05c0c39fe7f218c1f062c04729c.bindPopup(popup_a8a98c200aaeddf1f6703cda6cfb07ad)
+        ;
+
+        
+    
+    
+            circle_marker_9558d05c0c39fe7f218c1f062c04729c.bindTooltip(
+                `<div>
+                     Kanombe: 72,346 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1fd7e6deb12e6f58ef4c1af1ed826b78 = L.circleMarker(
+                [-2.0023, 30.0812],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_bb236801f61c9ba355abaa1290e324be = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d1c40b854f9af2b54f0ab4a57a97c9af = $(`<div id="html_d1c40b854f9af2b54f0ab4a57a97c9af" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gatenga</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 67,084<br>       <b>Area:</b> 8.40 km²<br>       <b>Density:</b> 7986 people/km²     </div></div>`)[0];
+                popup_bb236801f61c9ba355abaa1290e324be.setContent(html_d1c40b854f9af2b54f0ab4a57a97c9af);
+            
+        
+
+        circle_marker_1fd7e6deb12e6f58ef4c1af1ed826b78.bindPopup(popup_bb236801f61c9ba355abaa1290e324be)
+        ;
+
+        
+    
+    
+            circle_marker_1fd7e6deb12e6f58ef4c1af1ed826b78.bindTooltip(
+                `<div>
+                     Gatenga: 67,084 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_81005e23536170db524e5e7b7a59af5a = L.circleMarker(
+                [-2.0234, 30.1156],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_7f508b963d6b3fcbcf52580e893740de = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f6235d557313356c6d346daaaa30890c = $(`<div id="html_f6235d557313356c6d346daaaa30890c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kigarama</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 63,153<br>       <b>Area:</b> 14.20 km²<br>       <b>Density:</b> 4447 people/km²     </div></div>`)[0];
+                popup_7f508b963d6b3fcbcf52580e893740de.setContent(html_f6235d557313356c6d346daaaa30890c);
+            
+        
+
+        circle_marker_81005e23536170db524e5e7b7a59af5a.bindPopup(popup_7f508b963d6b3fcbcf52580e893740de)
+        ;
+
+        
+    
+    
+            circle_marker_81005e23536170db524e5e7b7a59af5a.bindTooltip(
+                `<div>
+                     Kigarama: 63,153 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3a388b35cc77b5d9f97e46e71051808f = L.circleMarker(
+                [-1.9756, 30.1178],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_cb58106161240f38b3cf10e5ef919e06 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_55175e2dd20f3f7903a4247c2583391f = $(`<div id="html_55175e2dd20f3f7903a4247c2583391f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Nyarugunga</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 49,247<br>       <b>Area:</b> 16.80 km²<br>       <b>Density:</b> 2931 people/km²     </div></div>`)[0];
+                popup_cb58106161240f38b3cf10e5ef919e06.setContent(html_55175e2dd20f3f7903a4247c2583391f);
+            
+        
+
+        circle_marker_3a388b35cc77b5d9f97e46e71051808f.bindPopup(popup_cb58106161240f38b3cf10e5ef919e06)
+        ;
+
+        
+    
+    
+            circle_marker_3a388b35cc77b5d9f97e46e71051808f.bindTooltip(
+                `<div>
+                     Nyarugunga: 49,247 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9f83a0cbf492eb522f3a4bd12846f279 = L.circleMarker(
+                [-2.0156, 30.0756],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_3fe1863955748287b32f262ff81e7eec = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2491aafe0aa5a6fa605a0a82777189d8 = $(`<div id="html_2491aafe0aa5a6fa605a0a82777189d8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Niboye</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 26,912<br>       <b>Area:</b> 6.30 km²<br>       <b>Density:</b> 4272 people/km²     </div></div>`)[0];
+                popup_3fe1863955748287b32f262ff81e7eec.setContent(html_2491aafe0aa5a6fa605a0a82777189d8);
+            
+        
+
+        circle_marker_9f83a0cbf492eb522f3a4bd12846f279.bindPopup(popup_3fe1863955748287b32f262ff81e7eec)
+        ;
+
+        
+    
+    
+            circle_marker_9f83a0cbf492eb522f3a4bd12846f279.bindTooltip(
+                `<div>
+                     Niboye: 26,912 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_20feb1582a536ac0aa8c80ef72425b0f = L.circleMarker(
+                [-2.0134, 30.0934],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_504369baa1f3ae7aba824542d1dc6ba2 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_42264b3e61784c10213abec0ab57fbbd = $(`<div id="html_42264b3e61784c10213abec0ab57fbbd" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kagarama</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 21,277<br>       <b>Area:</b> 5.80 km²<br>       <b>Density:</b> 3668 people/km²     </div></div>`)[0];
+                popup_504369baa1f3ae7aba824542d1dc6ba2.setContent(html_42264b3e61784c10213abec0ab57fbbd);
+            
+        
+
+        circle_marker_20feb1582a536ac0aa8c80ef72425b0f.bindPopup(popup_504369baa1f3ae7aba824542d1dc6ba2)
+        ;
+
+        
+    
+    
+            circle_marker_20feb1582a536ac0aa8c80ef72425b0f.bindTooltip(
+                `<div>
+                     Kagarama: 21,277 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_19c00ab1328d445f3d718990f0adf86d = L.circleMarker(
+                [-1.9823, 30.0678],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_5c86b10651bccdf0a590a79a73991360 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a729b481f6e0c01933032ed055894d3e = $(`<div id="html_a729b481f6e0c01933032ed055894d3e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Gikondo</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 19,803<br>       <b>Area:</b> 4.70 km²<br>       <b>Density:</b> 4213 people/km²     </div></div>`)[0];
+                popup_5c86b10651bccdf0a590a79a73991360.setContent(html_a729b481f6e0c01933032ed055894d3e);
+            
+        
+
+        circle_marker_19c00ab1328d445f3d718990f0adf86d.bindPopup(popup_5c86b10651bccdf0a590a79a73991360)
+        ;
+
+        
+    
+    
+            circle_marker_19c00ab1328d445f3d718990f0adf86d.bindTooltip(
+                `<div>
+                     Gikondo: 19,803 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0f2e7a1ba4e19ddc28079015336df422 = L.circleMarker(
+                [-2.0012, 30.1023],
+                {"bubblingMouseEvents": true, "color": "white", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6600", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 1}
+            ).addTo(feature_group_c86fe73c7269e9a1d741b6e11cef796c);
+        
+    
+        var popup_0ac738a0a635681288ea102c9e35c21b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_bbe4ac5bf98cba4faaf7c84e04d8faff = $(`<div id="html_bbe4ac5bf98cba4faaf7c84e04d8faff" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:13px;min-width:210px'>       <h4 style='margin:0;color:#222'>Kicukiro</h4>       <hr style='margin:5px 0'>       <b>District:</b> Kicukiro<br>       <b>Population:</b> 14,039<br>       <b>Area:</b> 5.20 km²<br>       <b>Density:</b> 2700 people/km²     </div></div>`)[0];
+                popup_0ac738a0a635681288ea102c9e35c21b.setContent(html_bbe4ac5bf98cba4faaf7c84e04d8faff);
+            
+        
+
+        circle_marker_0f2e7a1ba4e19ddc28079015336df422.bindPopup(popup_0ac738a0a635681288ea102c9e35c21b)
+        ;
+
+        
+    
+    
+            circle_marker_0f2e7a1ba4e19ddc28079015336df422.bindTooltip(
+                `<div>
+                     Kicukiro: 14,039 people
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_c86fe73c7269e9a1d741b6e11cef796c.addTo(map_2fc214f8a4130c2786ec6945ecf9d848);
+        
+    
+            var layer_control_1744b1554a9d39c03927c3a60d7a10bf_layers = {
+                base_layers : {
+                    "cartodbdarkmatter" : tile_layer_00724f8adf2e30d9710f6d762a054f3e,
+                },
+                overlays :  {
+                    "Population Density Heatmap" : heat_map_fda9a2688c884e6fa392e723cabb1cf7,
+                    "Sector Info" : feature_group_c86fe73c7269e9a1d741b6e11cef796c,
+                },
+            };
+            let layer_control_1744b1554a9d39c03927c3a60d7a10bf = L.control.layers(
+                layer_control_1744b1554a9d39c03927c3a60d7a10bf_layers.base_layers,
+                layer_control_1744b1554a9d39c03927c3a60d7a10bf_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_2fc214f8a4130c2786ec6945ecf9d848);
+
+        
+</script>
+</html>
